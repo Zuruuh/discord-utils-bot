@@ -1,11 +1,11 @@
-import DiscordJS, { Intents } from "discord.js";
-import dotenv from "dotenv";
+import { Intents, Client } from "discord.js";
+import * as dotenv from "dotenv";
 import { commandHandler, parseCommands } from "./handlers/Command";
 
 dotenv.config();
 let Handler: commandHandler;
 
-const client = new DiscordJS.Client({
+const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MEMBERS,
@@ -14,7 +14,9 @@ const client = new DiscordJS.Client({
 });
 
 client.on("ready", () => {
-  const commands = parseCommands("commands/");
+  console.log("Bot ready");
+  const { commands, categories } = parseCommands("commands/");
+  categories.length;
   Handler = new commandHandler(commands);
 });
 
