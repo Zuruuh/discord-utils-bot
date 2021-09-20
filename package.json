@@ -6,7 +6,8 @@
   "author": "Younes Ziadi <ziadi.mail.pro@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc src/index.ts --outDir dist/"
   },
   "dependencies": {
     "discord.js": "^13.1.0",
