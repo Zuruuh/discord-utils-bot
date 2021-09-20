@@ -1,8 +1,9 @@
-import type { Command, PermissionTranslation } from "../types";
+import type { PermissionTranslation } from "../types";
+import type { CommandConfig } from "./commands-types";
 import { GuildMember, Permissions } from "discord.js";
 
 export class PermissionsHandler {
-  public handle(command: Command, member: GuildMember | null) {
+  public handle(command: CommandConfig, member: GuildMember | null) {
     let missing: string[] = [];
     if (command.permission) {
       command.permission.forEach((perm) => {

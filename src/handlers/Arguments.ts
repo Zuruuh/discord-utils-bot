@@ -1,4 +1,8 @@
-import type { Argument, ArgumentError, ArgumentResponse } from "../types";
+import type {
+  Argument,
+  ArgumentError,
+  ArgumentResponse,
+} from "./arguments-types";
 
 export class ArgumentsHandler {
   private pingRegex: RegExp = /<|>|!|@|#|\"|\'/gim;
