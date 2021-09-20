@@ -1,14 +1,36 @@
+import { PermissionFlags } from "discord.js";
+
 export type Argument = {
   name: string;
-  description: string;
+  type?: "STRING" | "INTEGER" | "TIME" | "FULLTEXT" | "USER" | "CHANNEL";
   required: boolean;
 };
 
 export type Command = {
   name: string;
-  description: string;
   usage: string;
-  aliases: string[];
+  aliases?: string[];
   category: string;
-  args: Argument[];
+  params?: Argument[];
+  permission?: bigint[];
+  run: Function;
+};
+
+export type Category = {
+  uuid: string;
+};
+
+export type PermissionTranslation = {
+  locale: string;
+  value: string;
+};
+
+export type ArgumentError = {
+  type: "INVALID" | "MISSING";
+};
+
+export type ArgumentResponse = {
+  state: boolean;
+  message?: string;
+  params?: any;
 };
