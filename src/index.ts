@@ -1,9 +1,9 @@
 import { Intents, Client } from "discord.js";
 import * as dotenv from "dotenv";
-import { commandHandler, parseCommands } from "./handlers/Command";
+import { commandHandler, parseCommands } from "./handlers/Commands";
 
 dotenv.config();
-let Handler: commandHandler;
+let CommandHandler: commandHandler;
 
 const client = new Client({
   intents: [
@@ -17,11 +17,11 @@ client.on("ready", () => {
   console.log("Bot ready");
   const { commands, categories } = parseCommands("commands/");
   categories.length;
-  Handler = new commandHandler(commands);
+  CommandHandler = new commandHandler(commands);
 });
 
 client.on("messageCreate", (message) => {
-  Handler.handle(message);
+  CommandHandler.handle(message);
 });
 
 client.login(process.env.TOKEN);
