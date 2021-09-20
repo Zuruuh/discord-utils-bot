@@ -4,6 +4,11 @@ This is a small project I made for fun to learn about the Discord api and the Di
 
 At first this was only supposed to be a simple command handler I made because a friend of mine couldn't get to create one, but it might get even better in the future, and maybe be become a full multi-tooling bot :D
 
+## Informations
+
+This project is built entirely with Typescript, and I am trying to use as few external modules as possible.
+For now, I am only planning to add an orm for my database connexion.
+
 ## Dependencies
 
 To run this project, you will need the following dependencies:
