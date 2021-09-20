@@ -1,16 +1,18 @@
-import { Message } from "discord.js";
+import { ClientVoiceManager, Message } from "discord.js";
 import { readdirSync } from "fs";
 import { resolve, join } from "path";
 import { ArgumentsHandler } from "./Arguments";
 import { PermissionsHandler } from "./Permissions";
+import type { Category } from "../types";
+import type { Command, CommandConfig, ParsedCommand } from "./commands-types";
+import type { ArgumentResponse } from "./arguments-types";
 
-import type { ArgumentResponse, Category, Command } from "../types";
 export class commandHandler {
-  private commands: Command[] = [];
+  private commands: ParsedCommand[] = [];
   private permissionsHandler = new PermissionsHandler();
   private argumentsHandler = new ArgumentsHandler();
 
-  constructor(commands: Command[]) {
+  constructor(commands: ParsedCommand[]) {
     this.commands = commands;
   }
 
@@ -19,7 +21,7 @@ export class commandHandler {
     if (!commandData) {
       return;
     }
-    const command = commandData.command;
+    const { command } = commandData;
     const args = commandData.args;
     const { member } = message;
 
@@ -56,7 +58,7 @@ export class commandHandler {
     const prefix: string = process.env.PREFIX ?? ";";
     const regex: RegExp = /\s+/gi;
     let command: string = message.content;
-    let exists: Command | undefined;
+    let exists: CommandConfig | undefined;
 
     command = command.replace(regex, " ");
     const args: string[] = command.split(" ");
@@ -65,17 +67,23 @@ export class commandHandler {
       commandName = args[0].slice(prefix.length, args[0].length).toLowerCase();
 
       args.shift();
-      exists = this.commands.find(
-        (cmd) => cmd.name.toLowerCase() === commandName ?? undefined
-      );
+      this.commands.find((cmd) => {
+        if (cmd.name.toLowerCase() === commandName) {
+          exists = cmd.command.getConfig() as CommandConfig;
+        } else {
+          exists = undefined;
+        }
+      });
       if (!exists) {
         this.commands.forEach((cmd) => {
           if (!exists) {
-            exists = cmd.aliases?.find(
-              (alias) => alias.toLowerCase() === commandName
-            )
-              ? cmd
-              : undefined;
+            cmd.command.getConfig().aliases?.find((alias) => {
+              if (alias.toLowerCase() === commandName) {
+                exists = cmd.command.getConfig();
+              } else {
+                exists = undefined;
+              }
+            });
           }
         });
       }
@@ -93,22 +101,28 @@ export class commandHandler {
 export const parseCommands = (relativePath: string) => {
   const realPath = resolve(`${__dirname}/../${relativePath}`);
   const categoriesDir = readdirSync(realPath);
-  const commands: Command[] = [];
+  let commands: ParsedCommand[] = [];
   const categories: Category[] = [];
 
   categoriesDir.forEach((category) => {
-    const files = readdirSync(`${realPath}/${category}`);
-    files.forEach((file) => {
-      if (!file.match(/^category-config.[t|j]s$/gi)) {
-        const filePath = join(`${realPath}/${category}/${file}`);
-        const command = require(filePath);
-        commands.push(command.config);
-      } else {
-        const filePath = join(`${realPath}/${category}/${file}`);
-        const categoryConfig = require(filePath);
-        categories.push(categoryConfig);
-      }
-    });
+    if (category !== "Abstract") {
+      const files = readdirSync(`${realPath}/${category}`);
+      files.forEach((file) => {
+        if (!file.match(/^category-config.[t|j]s$/gi)) {
+          const filePath = join(`${realPath}/${category}/${file}`);
+          const commandClass = require(filePath);
+          const command = new commandClass() as Command;
+          commands.push({
+            name: file.slice(0, file.length - 3),
+            command,
+          } as ParsedCommand);
+        } else {
+          const filePath = join(`${realPath}/${category}/${file}`);
+          const categoryConfig = require(filePath);
+          categories.push(categoryConfig);
+        }
+      });
+    }
   });
   return { commands, categories };
 };
