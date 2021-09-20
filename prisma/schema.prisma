@@ -9,8 +9,8 @@ datasource db {
 
 model Guild {
   id          Int          @id @default(autoincrement())
-  guildId     Int          @unique
-  name        String       @db.VarChar(100)
+  guildId     String       @unique @db.VarChar(32)
+  name        String       @db.VarChar(128)
   guildConfig GuildConfig?
 }
 
@@ -24,6 +24,6 @@ model GuildConfig {
 
 model UserInfo {
   id      Int    @id @default(autoincrement())
-  guildId Int    @unique
-  userId  String @db.VarChar(18)
+  guildId String @unique @db.VarChar(32)
+  userId  String @db.VarChar(32)
 }
