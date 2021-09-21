@@ -12,7 +12,7 @@ export class eventListener {
       console.log("Bot ready");
       const { commands, categories } = parseCommands("commands/", this.DB);
       categories.length;
-      this.CommandHandler = new commandHandler(commands);
+      this.CommandHandler = new commandHandler(commands, this.DB);
     });
 
     this.client.on("guildCreate", async (guild) => {
@@ -31,6 +31,7 @@ export class eventListener {
     });
 
     this.client.on("messageCreate", async (message) => {
+      if (message.author.bot) return;
       await this.CommandHandler.handle(message);
     });
   }
