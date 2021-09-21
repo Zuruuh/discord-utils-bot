@@ -15,27 +15,26 @@ export abstract class AbstractCommand {
     return this.config;
   }
 
-  protected async getServerConfig(message: Message): Promise<Guild | boolean> {
+  protected async getServerConfig(
+    message: Message
+  ): Promise<Guild | undefined> {
     try {
       const guild = await this.prisma.guild.findUnique({
         where: {
           guildId: message.guild?.id,
         },
+        include: {
+          guildConfig: true,
+        },
       });
 
       if (!guild) {
-        return false;
+        return undefined;
       }
-
       return guild;
-      // return this.prisma.guildConfig.findUnique({
-      //   where: {
-      //     guildId: guild
-      //   }
-      // })
     } catch (err) {
       console.error(err);
-      return false;
+      return undefined;
     }
   }
 }
