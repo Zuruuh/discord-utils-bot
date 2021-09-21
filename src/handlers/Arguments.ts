@@ -1,4 +1,8 @@
-import type { Argument, ArgumentError, ArgumentResponse } from "../types";
+import type {
+  Argument,
+  ArgumentError,
+  ArgumentResponse,
+} from "./arguments-types";
 
 export class ArgumentsHandler {
   private pingRegex: RegExp = /<|>|!|@|#|\"|\'/gim;
@@ -66,9 +70,21 @@ export class ArgumentsHandler {
             }
             break;
           case "FULLTEXT":
-            const text: string[] = params.splice(index, params.length);
-            if (text.length > 0) {
-              returnValue.params[expected.name] = text.join(" ");
+            if (!params[index]) {
+              if (expected.required) {
+                returnValue = {
+                  state: false,
+                  message: this.returnErrorMessage(
+                    expected,
+                    {
+                      type: "MISSING",
+                    } as ArgumentError,
+                    commandName
+                  ),
+                };
+              }
+            } else {
+              returnValue.params[expected.name] = params[index];
             }
             break;
         }
@@ -135,6 +151,9 @@ export class ArgumentsHandler {
           case `${commandName}#content`:
             value = "Content";
             break;
+          case `${commandName}#prefix`:
+            value = "Prefix";
+            break;
         }
         break;
       case "fr-fr":
@@ -147,6 +166,9 @@ export class ArgumentsHandler {
             break;
           case "ping#content":
             value = "Contenu";
+            break;
+          case `${commandName}#prefix`:
+            value = "Préfixe";
             break;
         }
         break;

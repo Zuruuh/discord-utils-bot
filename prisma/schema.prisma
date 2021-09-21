@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id          Int          @id @default(autoincrement())
+  guildId     String       @unique @db.VarChar(32)
+  name        String       @db.VarChar(128)
+  guildConfig GuildConfig?
+}
+
+model GuildConfig {
+  id      Int    @id @default(autoincrement())
+  guildId Int    @unique(map: "GuildConfig_guildId_unique")
+  prefix  String @default("!") @db.VarChar(8)
+  lang    String @default("en-us") @db.VarChar(8)
+  guild   Guild  @relation(fields: [guildId], references: [id])
+}
+
+model UserInfo {
+  id      Int    @id @default(autoincrement())
+  guildId String @unique @db.VarChar(32)
+  userId  String @db.VarChar(32)
+}
