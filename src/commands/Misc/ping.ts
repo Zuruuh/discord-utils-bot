@@ -1,10 +1,11 @@
 import { Message, Permissions } from "discord.js";
-import { Command, CommandConfig } from "../../handlers/commands-types";
+import { Database } from "../../database";
+import { CommandConfig } from "../../handlers/commands-types";
 import { AbstractCommand } from "../Abstract/AbstractCommand";
 
-class PingCommand extends AbstractCommand {
-  constructor() {
-    super();
+export class PingCommand extends AbstractCommand {
+  constructor(database: Database) {
+    super(database);
   }
   private run = async (message: Message, args: any): Promise<void> => {
     message.channel.send("Pong!");
