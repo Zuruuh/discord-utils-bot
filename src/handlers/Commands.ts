@@ -1,4 +1,4 @@
-import { ClientVoiceManager, Message } from "discord.js";
+import { Message } from "discord.js";
 import { readdirSync } from "fs";
 import { resolve, join } from "path";
 import { ArgumentsHandler } from "./Arguments";
@@ -6,18 +6,33 @@ import { PermissionsHandler } from "./Permissions";
 import type { Category } from "../types";
 import type { Command, CommandConfig, ParsedCommand } from "./commands-types";
 import type { ArgumentResponse } from "./arguments-types";
+import { Database } from "../database";
+import { PrismaClient } from ".prisma/client";
 
 export class commandHandler {
   private commands: ParsedCommand[] = [];
   private permissionsHandler = new PermissionsHandler();
   private argumentsHandler = new ArgumentsHandler();
+  private prisma: PrismaClient;
 
-  constructor(commands: ParsedCommand[]) {
+  constructor(commands: ParsedCommand[], db: Database) {
     this.commands = commands;
+    this.prisma = db.getDB();
   }
 
-  public handle(message: Message) {
-    const commandData = this.getCommand(message);
+  public async handle(message: Message) {
+    const serverConfig = await this.prisma.guild.findUnique({
+      where: {
+        guildId: message.guild?.id,
+      },
+      include: {
+        guildConfig: true,
+      },
+    });
+    const prefix: string = serverConfig?.guildConfig?.prefix ?? ";";
+    const lang: string = serverConfig?.guildConfig?.lang ?? "en-us";
+
+    const commandData = this.getCommand(message, prefix);
     if (!commandData) {
       return;
     }
@@ -27,7 +42,11 @@ export class commandHandler {
 
     // ! 1 - Check for permissions
 
-    const hasPermissions = this.permissionsHandler.handle(command, member);
+    const hasPermissions = this.permissionsHandler.handle(
+      command,
+      member,
+      lang
+    );
     if (!hasPermissions.state) {
       const missing = hasPermissions.missing ?? [];
       message.channel.send(`
@@ -51,11 +70,10 @@ export class commandHandler {
     }
 
     // ! 3 - Check if perms and args are valid
-    command.run(message, params.params);
+    await command.run(message, params.params);
   }
 
-  private getCommand(message: Message) {
-    const prefix: string = process.env.PREFIX ?? ";";
+  private getCommand(message: Message, prefix: string) {
     const regex: RegExp = /\s+/gi;
     let command: string = message.content;
     let exists: CommandConfig | undefined;
@@ -70,7 +88,7 @@ export class commandHandler {
       this.commands.find((cmd) => {
         if (cmd.name.toLowerCase() === commandName) {
           exists = cmd.command.getConfig() as CommandConfig;
-        } else {
+        } else if (!exists) {
           exists = undefined;
         }
       });
@@ -98,7 +116,7 @@ export class commandHandler {
   }
 }
 
-export const parseCommands = (relativePath: string) => {
+export const parseCommands = (relativePath: string, DB: Database) => {
   const realPath = resolve(`${__dirname}/../${relativePath}`);
   const categoriesDir = readdirSync(realPath);
   let commands: ParsedCommand[] = [];
@@ -111,7 +129,7 @@ export const parseCommands = (relativePath: string) => {
         if (!file.match(/^category-config.[t|j]s$/gi)) {
           const filePath = join(`${realPath}/${category}/${file}`);
           const commandClass = require(filePath);
-          const command = new commandClass() as Command;
+          const command = new commandClass(DB) as Command;
           commands.push({
             name: file.slice(0, file.length - 3),
             command,
