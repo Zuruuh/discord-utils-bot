@@ -1,7 +1,7 @@
 import { PrismaClient, Guild } from "@prisma/client";
 import { Message } from "discord.js";
-import { Database } from "../../database";
-import { CommandConfig } from "../../handlers/commands-types";
+import { Database } from "$utils/database";
+import type { CommandConfig } from "$types/commands";
 
 export abstract class AbstractCommand {
   protected prisma: PrismaClient;
