@@ -11,7 +11,7 @@ import type { Category } from "$types/types";
 import type { ArgumentResponse } from "$types/arguments";
 import type { Command, CommandConfig, ParsedCommand } from "$types/commands";
 
-export class commandHandler {
+export class CommandHandler {
   private commands: ParsedCommand[] = [];
   private permissionsHandler = new PermissionsHandler();
   private argumentsHandler = new ArgumentsHandler();
@@ -71,7 +71,6 @@ export class commandHandler {
       }
     }
 
-    // ! 3 - Check if perms and args are valid
     await command.run(message, params.params);
   }
 
