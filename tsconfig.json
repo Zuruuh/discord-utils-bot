@@ -75,7 +75,6 @@
         "$commands/*": ["commands/*"],
         "$handlers/*": ["handlers/*"],
         "$abstract/*": ["abstract/*"],
-        "$constants/*": ["constants/*"]
     }
   },
   "exclude": ["dist", "node_modules", "prisma"]

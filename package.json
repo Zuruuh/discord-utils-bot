@@ -37,7 +37,6 @@
     "$utils": "src/utils",
     "$commands": "src/commands",
     "$handlers": "src/handlers",
-    "$abstract": "src/abstract",
-    "$constants": "src/constants"
+    "$abstract": "src/abstract"
   }
 }
