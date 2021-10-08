@@ -1,7 +1,7 @@
 import { Client } from "discord.js";
 import { Database } from "./database";
-import { commandHandler, parseCommands } from "./handlers/Commands";
-import { guildHandler } from "./handlers/GuildConfigHandler";
+import { guildHandler } from "$handlers/GuildConfigHandler";
+import { commandHandler, parseCommands } from "$handlers/Commands";
 
 export class eventListener {
   private CommandHandler!: commandHandler;
