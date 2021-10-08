@@ -1,9 +1,11 @@
-import { Intents, Client } from "discord.js";
-import * as dotenv from "dotenv";
-import { Database } from "./database";
-import { eventListener } from "./EventListener";
+import 'module-alias/register';
 
-dotenv.config();
+import { Intents, Client } from "discord.js";
+import { config } from "dotenv";
+import { Database } from "$utils/database";
+import { eventListener } from "$utils/EventListener";
+
+config();
 const DB = new Database();
 
 const client = new Client({

@@ -1,13 +1,15 @@
 import { Message } from "discord.js";
 import { readdirSync } from "fs";
 import { resolve, join } from "path";
-import { ArgumentsHandler } from "./Arguments";
-import { PermissionsHandler } from "./Permissions";
-import type { Category } from "../types";
-import type { Command, CommandConfig, ParsedCommand } from "./commands-types";
-import type { ArgumentResponse } from "./arguments-types";
-import { Database } from "../database";
+import { Database } from "$utils/database";
 import { PrismaClient } from ".prisma/client";
+
+import { ArgumentsHandler } from "$handlers/Arguments";
+import { PermissionsHandler } from "$handlers/Permissions";
+
+import type { Category } from "$types/types";
+import type { ArgumentResponse } from "$types/arguments";
+import type { Command, CommandConfig, ParsedCommand } from "$types/commands";
 
 export class commandHandler {
   private commands: ParsedCommand[] = [];

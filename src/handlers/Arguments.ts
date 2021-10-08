@@ -2,7 +2,7 @@ import type {
   Argument,
   ArgumentError,
   ArgumentResponse,
-} from "./arguments-types";
+} from "$types/arguments";
 
 export class ArgumentsHandler {
   private pingRegex: RegExp = /<|>|!|@|#|\"|\'/gim;

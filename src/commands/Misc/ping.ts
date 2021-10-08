@@ -1,7 +1,7 @@
 import { Message, Permissions } from "discord.js";
-import { Database } from "../../database";
-import { CommandConfig } from "../../handlers/commands-types";
-import { AbstractCommand } from "../Abstract/AbstractCommand";
+import { Database } from "$utils/database";
+import { AbstractCommand } from "$abstract/AbstractCommand";
+import type { CommandConfig } from "$types/commands";
 
 export class PingCommand extends AbstractCommand {
   constructor(database: Database) {

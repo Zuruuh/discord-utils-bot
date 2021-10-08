@@ -1,7 +1,7 @@
 import { Message, Permissions } from "discord.js";
-import { Database } from "../../database";
-import { CommandConfig } from "../../handlers/commands-types";
-import { AbstractCommand } from "../Abstract/AbstractCommand";
+import { Database } from "$utils/database";
+import type { CommandConfig } from "$types/commands";
+import { AbstractCommand } from "$abstract/AbstractCommand";
 import { Guild as GuildSchema } from ".prisma/client";
 export class PrefixCommand extends AbstractCommand {
   constructor(database: Database) {

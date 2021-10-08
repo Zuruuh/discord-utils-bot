@@ -1,6 +1,6 @@
-import type { PermissionTranslation } from "../types";
-import type { CommandConfig } from "./commands-types";
 import { GuildMember, Permissions } from "discord.js";
+import type { PermissionTranslation } from "$types/types";
+import type { CommandConfig } from "$types/commands";
 
 export class PermissionsHandler {
   public handle(
