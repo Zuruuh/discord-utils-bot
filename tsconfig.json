@@ -71,10 +71,11 @@
         "$i18n/*": ["i18n/*"],
         "$utils/*": ["utils/*"],
         "$types/*": ["types/*"],
-        "$prisma/*": ["prisma/*"],
+        "$events/*": ["events/*"],
         "$commands/*": ["commands/*"],
         "$handlers/*": ["handlers/*"],
         "$abstract/*": ["abstract/*"],
+        "$decorators/*": ["decorators/*"],
     }
   },
   "exclude": ["dist", "node_modules", "prisma"]
