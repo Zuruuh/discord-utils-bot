@@ -16,7 +16,7 @@ export class guildHandler {
           guildConfig: {
             create: {
               prefix: "!",
-              lang: "en-us",
+              lang: "en-US",
             },
           },
         },
