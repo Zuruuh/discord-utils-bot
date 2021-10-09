@@ -1,10 +1,12 @@
-import { Intents, Client } from "discord.js";
-import * as dotenv from "dotenv";
-import { Database } from "./database";
-import { eventListener } from "./EventListener";
+import "module-alias/register";
 
-dotenv.config();
-const DB = new Database();
+import { Intents, Client } from "discord.js";
+import { config } from "dotenv";
+import { Database } from "$utils/database";
+import { RegisterEvents } from "$utils/RegisterEvents";
+
+config();
+const database = new Database();
 
 const client = new Client({
   intents: [
@@ -14,6 +16,6 @@ const client = new Client({
   ],
 });
 
-new eventListener(client, DB).start();
+RegisterEvents.start(client, database);
 
 client.login(process.env.TOKEN);

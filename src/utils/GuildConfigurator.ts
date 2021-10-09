@@ -1,7 +1,7 @@
 import { Guild as GuildSchema, PrismaClient } from ".prisma/client";
 import { Guild } from "discord.js";
 
-export class guildHandler {
+export class GuildConfigurator {
   constructor(
     private readonly _guild: Guild,
     private readonly prisma: PrismaClient
@@ -16,7 +16,7 @@ export class guildHandler {
           guildConfig: {
             create: {
               prefix: "!",
-              lang: "en-us",
+              lang: "en-US",
             },
           },
         },

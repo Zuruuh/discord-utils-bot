@@ -15,7 +15,7 @@ To run this project, you will need the following dependencies:
 
 - NodeJS 16^
 - NPM 7^
-- Yarn 1^
+- Yarn 2^
 
 (This project has not been tested with prior versions and might be unstable)
 

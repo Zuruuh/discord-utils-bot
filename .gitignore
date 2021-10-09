@@ -2,3 +2,5 @@
 node_modules
 .prettierrc
 dist/
+data/
+course-structure/

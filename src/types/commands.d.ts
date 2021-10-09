@@ -1,3 +1,6 @@
+import { Message, Client } from "discord.js";
+import { Translation } from "$types/langs";
+
 export type CommandConfig = {
   name: string;
   usage: string;
@@ -17,6 +20,12 @@ export type Command = {
 export type ParsedCommand = {
   name: string;
   command: Command;
+};
+
+export type RunCommand = {
+  message: Message;
+  args?: Object;
+  translation: Translation;
 };
 
 /** Permission flags list

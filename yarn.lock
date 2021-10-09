@@ -51,10 +51,10 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines-version/-/engines-version-2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db.tgz#c45323e420f47dd950b22c873bdcf38f75e65779"
   integrity sha512-iArSApZZImVmT9oC/rGOjzvpG2AOqlIeqYcVnop9poA3FxD4zfVPbNPH9DTgOWhc06OkBHujJZeAcsNddVabIQ==
 
-"@prisma/engines@2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db":
-  version "2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db"
-  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-2.31.0-32.2452cc6313d52b8b9a96999ac0e974d0aedf88db.tgz#b6cf70bc05dd2a62168a16f3ea58a1b011074621"
-  integrity sha512-Q9CwN6e5E5Abso7J3A1fHbcF4NXGRINyMnf7WQ07fXaebxTTARY5BNUzy2Mo5uH82eRVO5v7ImNuR044KTjLJg==
+"@prisma/engines@3.2.1-1.b71d8cb16c4ddc7e3e9821f42fd09b0f82d7934c":
+  version "3.2.1-1.b71d8cb16c4ddc7e3e9821f42fd09b0f82d7934c"
+  resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-3.2.1-1.b71d8cb16c4ddc7e3e9821f42fd09b0f82d7934c.tgz#d2a41a76a89548ea411043c3198eee4a75475dbb"
+  integrity sha512-wnHODKLQGKkE2ZCHxHQEf/4Anq/EP0ZCvX++D5w34033mwZ94iZiOsEKZZ31fgki7MTh28F1VNF5ZSFdnRjgvQ==
 
 "@sapphire/async-queue@^1.1.4":
   version "1.1.4"
@@ -208,6 +208,11 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.49.0"
 
+module-alias@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/module-alias/-/module-alias-2.2.2.tgz#151cdcecc24e25739ff0aa6e51e1c5716974c0e0"
+  integrity sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==
+
 node-fetch@^2.6.1:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.2.tgz#986996818b73785e47b1965cc34eb093a1d464d0"
@@ -224,6 +229,13 @@ ow@^0.27.0:
     lodash.isequal "^4.5.0"
     type-fest "^1.2.1"
     vali-date "^1.0.0"
+
+prisma@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-3.2.1.tgz#696871f6d0e374df2de96297df4c04756ee6e3b5"
+  integrity sha512-nXhldcFYemNSMqdTAEziggVWBNbCHTrr0amkCJruP3G2AFpzxrKtksPRLYNetxdKMJAt7aRRumusbtmTTDgyzw==
+  dependencies:
+    "@prisma/engines" "3.2.1-1.b71d8cb16c4ddc7e3e9821f42fd09b0f82d7934c"
 
 ts-mixer@^6.0.0:
   version "6.0.0"
