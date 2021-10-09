@@ -1,5 +1,5 @@
 import { EventListener } from "$decorators/EventListener";
-import { CommandHandler, parseCommands } from "$handlers/Commands";
+import { CommandHandler, parseCommands } from "$handlers/CommandsHandler";
 import { Database } from "$utils/database";
 import { Client, Message } from "discord.js";
 
