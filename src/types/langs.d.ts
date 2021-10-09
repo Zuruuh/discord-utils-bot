@@ -13,9 +13,17 @@ export type Translation = {
   };
   authorizations: {};
   permissions: {
+    missingBotPermissions: string;
     missingPermissions: string;
     error: string;
     "268435456": string;
+  };
+  arguments: {
+    missing: string;
+    invalid: string;
+    generic: {
+      user: string;
+    };
   };
   status: {};
   commands: {};

@@ -1,6 +1,6 @@
 import type { Translation } from "$types/langs";
 
-export const language = {
+export const Language = {
   name: "English",
   code: "en-US",
   common: {
@@ -14,11 +14,20 @@ export const language = {
   },
   authorizations: {},
   permissions: {
-    missingPermissions:
+    missingBotPermissions:
       "Seems like the bot doesn't have the required permissions.",
+    missingPermissions:
+      "Cannot perform this action :confused:\nYou are missing the following permissions:",
     error:
       "No translation(s) were/was found for this/these translations :frowning:",
     "268435456": "Manage Roles",
+  },
+  arguments: {
+    missing: 'Required parameter "%s" is missing',
+    invalid: 'Parameter "%s" is invalid',
+    generic: {
+      user: "User",
+    },
   },
   status: {},
   commands: {},
@@ -64,9 +73,9 @@ export const language = {
       success: "This warn has been successfully removed",
     },
     warns: {
-      title: "%s's warns (%d/%d)",
+      title: "%s's warns (%s/%s)",
       empty: "User has never been warned",
-      description: "*Total warnings: `%d`*",
+      description: "*Total warnings: `%s`*",
     },
   },
   tickets: {

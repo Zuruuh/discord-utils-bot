@@ -1,6 +1,6 @@
 import type { Translation } from "$types/langs";
 
-export const language = {
+export const Language = {
   name: "Français",
   code: "fr-FR",
   common: {
@@ -14,11 +14,20 @@ export const language = {
   },
   authorizations: {},
   permissions: {
+    missingBotPermissions:
+      "Il semblerai que le bot n'ai pas les permissions nécessaires",
     missingPermissions:
-      "Il semblerai que le bot n'ai pas les permissions nécéssaires",
+      "Impossible d'exécuter cette action :confused:\nIl vous manque les permissions suivantes:",
     error:
       "Aucune traduction n'est disponible pour cette/ces permission(s) pour le moment :frowning:",
     "268435456": "Gestion des rôles",
+  },
+  arguments: {
+    missing: "L'argument %s est manquant",
+    invalid: "Le paramètre %s est invalide",
+    generic: {
+      user: "Utilisateur",
+    },
   },
   status: {},
   commands: {},
@@ -68,9 +77,9 @@ export const language = {
       success: "Cet avertissement à été correctement supprimé",
     },
     warns: {
-      title: "Liste des avertissements de %s (%d/%d)",
+      title: "Liste des avertissements de %s (%s/%s)",
       empty: "Cet utilisateur n'a jamais été averti",
-      description: "*Total d'avertissements: `%d`*",
+      description: "*Total d'avertissements: `%s`*",
     },
   },
   tickets: {
