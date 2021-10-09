@@ -4,22 +4,26 @@ import { resolve, join } from "path";
 import { Database } from "$utils/database";
 import { PrismaClient } from ".prisma/client";
 
-import { ArgumentsHandler } from "$handlers/Arguments";
-import { PermissionsHandler } from "$handlers/Permissions";
+import { ArgumentsHandler } from "$handlers/ArgumentsHandler";
+import { PermissionsHandler } from "$handlers/PermissionsHandler";
+import { TranslationsHandler } from "./TranslationsHandler";
 
 import type { Category } from "$types/types";
 import type { ArgumentResponse } from "$types/arguments";
 import type { Command, CommandConfig, ParsedCommand } from "$types/commands";
+import type { Lang, Translation } from "$types/langs";
 
 export class CommandHandler {
-  private commands: ParsedCommand[] = [];
-  private permissionsHandler = new PermissionsHandler();
-  private argumentsHandler = new ArgumentsHandler();
   private prisma: PrismaClient;
+  private commands: ParsedCommand[] = [];
+  private permissionsHandler: PermissionsHandler;
+  private argumentsHandler: ArgumentsHandler;
 
-  constructor(commands: ParsedCommand[], db: Database) {
+  constructor(commands: ParsedCommand[], database: Database) {
+    this.prisma = database.getDB();
     this.commands = commands;
-    this.prisma = db.getDB();
+    this.permissionsHandler = new PermissionsHandler();
+    this.argumentsHandler = new ArgumentsHandler();
   }
 
   public async handle(message: Message) {
@@ -32,14 +36,16 @@ export class CommandHandler {
       },
     });
     const prefix: string = serverConfig?.guildConfig?.prefix ?? ";";
-    const lang: string = serverConfig?.guildConfig?.lang ?? "en-us";
+    const lang: Lang = (serverConfig?.guildConfig?.lang as Lang) ?? "en-US";
+    const translation: Translation = new TranslationsHandler(
+      lang
+    ).getTranslation();
 
     const commandData = this.getCommand(message, prefix);
     if (!commandData) {
       return;
     }
-    const { command } = commandData;
-    const args = commandData.args;
+    const { command, args } = commandData;
     const { member } = message;
 
     // ! 1 - Check for permissions
@@ -47,31 +53,33 @@ export class CommandHandler {
     const hasPermissions = this.permissionsHandler.handle(
       command,
       member,
-      lang
+      translation
     );
     if (!hasPermissions.state) {
       const missing = hasPermissions.missing ?? [];
       message.channel.send(`
-          You are missing the following permissions:\
           \`\`\`diff\n${missing.map((perm) => `- ${perm} \n`)}\`\`\`\
           `);
       return;
     }
 
     // ! 2 - Verify arguments
-    let params: ArgumentResponse = { state: true };
+    let params: ArgumentResponse = { state: true, params: {} };
     if (command.params) {
-      params = this.argumentsHandler.handle(args, command.params, command.name);
+      params = this.argumentsHandler.handle(
+        args,
+        command.params,
+        command.name,
+        translation
+      );
       if (!params.state) {
-        message.channel.send(
-          params.message ??
-            "Server side error, contact Zuruh#0798 to report this bug please :)"
-        );
+        // @ts-expect-error
+        message.channel.send(params.message ?? translation.common.error);
         return;
       }
     }
 
-    await command.run(message, params.params);
+    await command.run({ message, args: params.params, translation });
   }
 
   private getCommand(message: Message, prefix: string) {
