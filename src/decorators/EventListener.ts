@@ -11,7 +11,7 @@ export function EventListener(params: any = {}) {
         const methods = properties.filter(
           (property) => typeof this[property] === "function"
         );
-        methods.map((method) => {
+        methods.forEach((method) => {
           // @ts-ignore
           this.client.on(
             method,
