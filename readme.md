@@ -46,6 +46,13 @@ If everything went correctly, your project should be good to go ! The last thing
 
 ## Configuration
 
+If you have Docker & Docker-Compose installed on your computer, you can just run the following command to get the database started.
+```bash
+$ docker-compose up -d
+```
+Once this is done, you can directly head to the [Start Section](#start).   
+If the docker command failed, just follow the instructions right below.   
+
 Last step before the project is up and running; get your bot's token and add it to the .env.example file.  
 Next, you will find a DATABASE_URL variable with differents constants in it's value (constants are written in capital letters).  
 You will need to replace all theses constants with your actual database connexion string informations.  
@@ -61,7 +68,7 @@ If you don't know what each of the constants mean, check the text underneath thi
 
 Now that all your environment variables are created, rename your ".env.example" to be ".env".
 
-## Start
+## Start <a name="start"></a>
 
 Now your project is ready ! You'll just have to type the following commands to see your bot wake up 😊
 
