@@ -66,16 +66,16 @@ If you don't know what each of the constants mean, check the text underneath thi
  Else, you should be able to find the correct port on your database provider  
 **DATABASE_NAME**: Your database's name. This name is arbitrary as long as you create your database first.
 
-Now that all your environment variables are created, rename your ".env.example" to be ".env".
 
 ## Start <a name="start"></a>
 
-Now your project is ready ! You'll just have to type the following commands to see your bot wake up 😊
+Now that all your environment variables are created, rename your ".env.example" to be ".env".
+NAnd there you go! Your project is ready!   
+Just run the following commands and your bot should wake up :)
 
 ```bash
 $ yarn p:m:m
-$ yarn build
-$ yarn start
+$ yarn dev
 ```
 
 And there you go ! Your bot is up and running 😄
