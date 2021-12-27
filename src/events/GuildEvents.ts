@@ -5,13 +5,10 @@ import { Client, Guild } from "discord.js";
 
 @EventListener()
 export class GuildEvents {
-  private database: Database;
-  private client: Client;
-
-  constructor(client: Client, database: Database) {
-    this.database = database;
-    this.client = client;
-  }
+  constructor(
+    private client: Client,
+    private database: Database
+   ) {}
 
   public guildCreate = async (guild: Guild) => {
     const GuildHandler = new GuildConfigurator(guild, this.database.getDB());
